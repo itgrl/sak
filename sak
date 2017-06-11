@@ -5,8 +5,8 @@
 ##  Author :  Rebecca Robinson   becca@robinson-consulting.net
 ##  Info   :  Multipurpose Expect script for performing multiple different
 ##            day to day administration tasks.
-##
-##
+##  Repo   :  https://github.com/itgrl/sak/
+##  
 ###############################################################################
 ### Debug mode
 #exp_internal 1
