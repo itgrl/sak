@@ -151,7 +151,7 @@ proc copy_file { myserver myfile mydirection } {
 
   if { $mydirection eq "down" } {
     file mkdir $myserver
-    spawn scp $myuser@$myserver:/$myfile ./
+    spawn scp $myuser@$myserver:/$myfile ./$myserver/
     expect {
       "RSA key fingerprint" { send "yes\r"; exp_continue }
       "assword: " { send -- "$mypass\r"; exp_continue }
