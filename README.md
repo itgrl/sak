@@ -1,5 +1,5 @@
 # sak
-Swiss Army Knife type of script to aid in day to day administration.  This script allows for copying a file to a system or list of systems, executing a command against a system or list of systems, and copying a file from a system or list of systems.  All three operations can be done in a single execution of this script to allow for copying a script for auditing to a system, executing it, and retrieving the results.
+Swiss Army Knife type of script to aid in day to day administration.  This script allows for copying a file to a system or list of systems, executing a command against a system or list of systems, and copying a file from a system or list of systems.  All three operations can be done in a single execution of this script to allow for copying a script for auditing to a system, executing it, and retrieval of a results file.
 
 ## Server List
 When supplying a server list, supply one server on each line.  The list can contain IP address, or FQDNs.  If using the hostname only, or shortname, then please be sure each entry on the list is resolvable in DNS from where you are executing the script.
