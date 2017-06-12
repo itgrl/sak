@@ -38,6 +38,7 @@ sak executes the file copy to server, followed by the execution of the supplied 
 
 ### Copied files destinations
 Files copied to destination servers are stored in the supplied user's home directory.
+
 Files copied from target servers are stored in the current working directory in a directory for each server in the list.  
 The script will make a directory for each target server in the current working directory.
 
