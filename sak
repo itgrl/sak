@@ -6,7 +6,7 @@
 ##  Info   :  Multipurpose Expect script for performing multiple different
 ##            day to day administration tasks.
 ##  Repo   :  https://github.com/itgrl/sak/
-##  
+##
 ###############################################################################
 ### Debug mode
 #exp_internal 1
@@ -50,16 +50,7 @@ proc eval_options { server } {
   upvar 1 helpmessage myhelpmessage
 
   # Evaluate if an action option was set.
-  if {[info exists mycommand]} {
-    if {$mycommand eq ""} {
-      # The flag was set, but no value supplied.
-      puts "I think you forgot something.\n  The -c flag was set, but a value was not supplied.\n"
-      exit 1
-    } else {
-      # Perform action
-      exec_command $server
-    }
-  } elseif {[info exists myfile]} {
+  if {[info exists myfile]} {
     if {$myfile eq ""} {
       # The flag was set, but no value supplied.
       puts "I think you forgot something.\n  The -f flag was set, but a value was not supplied.\n"
@@ -69,6 +60,16 @@ proc eval_options { server } {
       set frunonce "1"
       # Perform action
       copy_file $server $myfile "up"
+    }
+  } elseif {[info exists mycommand]} {
+    if {$mycommand eq ""} {
+      # The flag was set, but no value supplied.
+      puts "I think you forgot something.\n  The -c flag was set, but a value was not supplied.\n"
+      exit 1
+    } else {
+      set crunonce "1"
+      # Perform action
+      exec_command $server
     }
   } elseif {[info exists myremotefile]} {
     if {$myremotefile eq ""} {
@@ -92,7 +93,7 @@ proc eval_options { server } {
   # Evaluate if there are additional actions.
   if {[info exists myfile]} {
     # Check to see if this action was already ran.
-    if {[info exists runonce]} {
+    if {[info exists frunonce]} {
       if {$frunonce == "1"} {
         puts "File: I already ran this"
       }
@@ -106,10 +107,27 @@ proc eval_options { server } {
       copy_file $server $myfile "up"
     }
   }
-
+  
+  if {[info exists mycommand]} {
+    # Check to see if this action was already ran.
+    if {[info exists crunonce]} {
+      if {$crunonce == "1"} {
+        puts "File: I already ran this"
+      }
+    } elseif {$mycommand eq ""} {
+      # The flag was set, but no value supplied.
+      puts "I think you forgot something.\n  The -c flag was set, but a value was not supplied.\n"
+      exit 1
+    } else {
+      # Perform action
+      set crunonce "1"
+      exec_command $server
+    }
+  }
+  
   if {[info exists myremotefile]} {
     # Check to see if this action was already ran.
-    if {[info exists runonce]} {
+    if {[info exists rrunonce]} {
       if {$rrunonce == "1"} {
         puts "RemoteFile: I already ran this"
       }
@@ -164,6 +182,7 @@ proc exec_command { myserver } {
   }
   return
 }
+
 ### Parse Command Line options
 foreach arg $argv {
   switch -glob -- $arg {
