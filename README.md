@@ -7,17 +7,28 @@ Swiss Army Knife type of script to aid in day to day administration.  This scrip
 sak is a universal tool to aid in day to day adhoc tasks across 1 or more servers.
 
 Usage:
+
   Multi-server:
+  
       sak -f=filename.txt -c="cat /etc/motd" -l=server.list
+      
   Single-server:
+  
     sak -f=scriptname.txt -c="sudo cp scriptname.txt /root/bin/scriptname.sh" <ip or fqdn>
     
+    
 Options:
+
   -h or --help          Print this message.
+  
   -c or --command       Command to execute on target server(s).
+  
   -f or --file          Specify file to place on target server(s), in your homedir.
+  
   -r or --retrieve      Retrieve a file from the target server(s).  (Specify full path).
+  
   -l or --list          Server list to execute commands against.
+  
   
 ### Server List
 When supplying a server list, supply one server on each line.  The list can contain IP address, or FQDNs.  If using the hostname only, or shortname, then please be sure each entry on the list is resolvable in DNS from where you are executing the script.
