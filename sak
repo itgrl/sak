@@ -1,4 +1,4 @@
-#!/bin/expect
+#!/usr/bin/expect
 
 ###############################################################################
 ##  Program:  sak
@@ -252,6 +252,7 @@ if {$pass eq ""} {
 
 # Evalutate if a server or server list was set.
 if {[info exists list]} {
+  set firstrun "0"
   puts "Server list specified\n"
   # Open the server list and slurp contents
   set lst [open "$list" r]
@@ -261,10 +262,15 @@ if {[info exists list]} {
   set data [split $file_data "\n"]
   foreach line $data {
     if {$line eq ""} {
+      if {$firstrun eq "0"} {
+        puts "Oops, it looks like your list starts with blank lines."
+      }
+      puts "Blank line found, assuming the end and exiting."
       break
     } else {
       eval_options $line
     }
+    set firstrun "1"
   }
 } elseif {[info exists server]} {
   puts "Server specified\n"
