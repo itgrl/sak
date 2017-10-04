@@ -32,7 +32,7 @@ Options:
   -f or --file          Specify file to place on target server(s), in your homedir.
   -r or --retrieve      Retrieve a file from the target server(s).  (Specify full path).
   -l or --list          Server list to execute commands against.
-
+  -t or --timeout       Expect time to wait between commands.
 "
 ### Print Help Message if no arguments given.
 if {[llength $argv] == 0} {
@@ -207,6 +207,10 @@ foreach arg $argv {
     "-l*" -
     "--list" {
       set list [lindex [split $arg "="] 1]
+    }
+    "-t*" -
+    "--timeout" {
+      set timeout [lindex [split $arg "="] 1]
     }
     default {
       set server $arg

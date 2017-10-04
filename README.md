@@ -28,8 +28,9 @@ Options:
   -r or --retrieve      Retrieve a file from the target server(s).  (Specify full path).
   
   -l or --list          Server list to execute commands against.
-  
-  
+
+  -t or --timeout       Expect time to wait between commands.  
+
 ### Server List
 When supplying a server list, supply one server on each line.  The list can contain IP address, or FQDNs.  If using the hostname only, or shortname, then please be sure each entry on the list is resolvable in DNS from where you are executing the script.
 
@@ -44,3 +45,11 @@ The script will make a directory for each target server in the current working d
 
 ### Credentials
 The connect as credentials will be prompted for by the script and stored in a variable for reuse through the runtime of the script.
+
+### Timeout
+This sets the timeout that expect waits between commands.  If not set, it uses the expect defaults.  Useful if you are noticing the script move to the next action before completing the previous.
+
+### Installation
+This is a basic expect script and will require expect to be installed on the system where you execute the scripts.  Simply copy the sak script or clone the repository via git to the location you wish to execute the script from.  i.e. /root/bin/  ~/bin/ etc
+
+
