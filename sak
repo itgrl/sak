@@ -178,8 +178,7 @@ proc exec_command { myserver } {
   expect {
    "RSA key fingerprint" { send "yes\r"; exp_continue }
    "assword: " { send -- "$mypass\r"; exp_continue }
-   "$myuser: " { send -- "$mypass\r"; exp_continue }
-   "com: " { send -- "$mypass\r"; exp_continue }
+   "sudo* password for*: " { send -- "$mypass\r"; exp_continue }
 }
   return
 }
