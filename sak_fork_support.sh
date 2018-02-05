@@ -18,6 +18,8 @@ set pass ""
 set forkcount 0
 set maxforks 5
 set children 0
+set changepass "0"
+set newpass ""
 ### Help Message
 set helpmessage "
 $myname is a universal tool to aid in day to day adhoc tasks across 1 or more servers.\n
@@ -35,6 +37,7 @@ Options:
   -r or --retrieve      Retrieve a file from the target server(s).  (Specify full path).
   -l or --list          Server list to execute commands against.
   -t or --timeout       Expect time to wait between commands.
+  -p or --newpass	Indicate this is to change password of user logging in.
 "
 ### Print Help Message if no arguments given.
 if {[llength $argv] == 0} {
@@ -174,14 +177,20 @@ proc exec_command { myserver } {
   # Map variables
   upvar 2 user myuser
   upvar 2 pass mypass
+  upvar 2 newpass mynewpass
   upvar 2 command mycommand
 
   spawn ssh -XY $myuser@$myserver -t $mycommand
+  expect_before {
+   "New *assword: " { send -- "$mynewpass\r"; exp_continue }
+   "Retype new password:" { send -- "$mynewpass\r"; exp_continue }
+   "Current *assword: " { send -- "$mypass\r"; exp_continue }
+  }
   expect {
    "RSA key fingerprint" { send "yes\r"; exp_continue }
    "assword: " { send -- "$mypass\r"; exp_continue }
    "sudo* password for*: " { send -- "$mypass\r"; exp_continue }
-}
+  }
   return
 }
 
@@ -213,6 +222,9 @@ foreach arg $argv {
     "-t*" -
     "--timeout" {
       set timeout [lindex [split $arg "="] 1]
+    }
+    "-p" -
+    "--newpass" { set changepass "1" 
     }
     default {
       set server $arg
@@ -252,6 +264,52 @@ if {$pass eq ""} {
   exec clear >@ stdout
   puts "You didn't specify password for $user.\n"
   exit 1
+}
+
+if {$changepass eq "1"} {
+  send_user -- "Would you like to change the password for $user?\n"
+  expect_user -re "(.*)\n"
+  send_user "\n"
+  set answer $expect_out(1,string)
+  switch -glob -- $answer {
+    "Y" -
+    "y" -
+    "yes" -
+    "Yes" -
+    "YES" {
+      puts "You have indicated that you wish to change a password for $user.\n"
+      stty -echo
+      send_user -- "Enter the new password for $user: "
+      expect_user -re "(.*)\n"
+      send_user "\n"
+      stty echo
+      set newpass $expect_out(1,string)
+    }
+    "N" -
+    "n" -
+    "no" -
+    "No" -
+    "NO" { 
+      puts "You have indicated that you wish to change a password for another user.\n"
+      puts "This is assuming that you have the permissions to do so..\n"
+      stty -echo
+      send_user -- "Enter the new password: "
+      expect_user -re "(.*)\n"
+      send_user "\n"
+      stty echo
+      set newpass $expect_out(1,string)       
+    }
+    default {
+      puts "You must answer Y,y,Yes,yes or N,n,No,no. \n"
+      exit 1
+    }
+  }
+
+  if {$newpass eq ""} {
+    exec clear >@ stdout
+    puts "You didn't specify password for the password change, Good Bye.\n"
+    exit 1
+  }
 }
 
 ### Execute the script

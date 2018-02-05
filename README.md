@@ -31,6 +31,9 @@ Options:
 
   -t or --timeout       Expect time to wait between commands.  
 
+  -p or --newpass       Indicate this is to change password of user logging in.
+
+
 ### Server List
 When supplying a server list, supply one server on each line.  The list can contain IP address, or FQDNs.  If using the hostname only, or shortname, then please be sure each entry on the list is resolvable in DNS from where you are executing the script.
 
