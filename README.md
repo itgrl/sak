@@ -1,5 +1,14 @@
 # sak
 
+## Deprecated
+I will keep this script here since it is very useful especially for audits where we also need to download information from the runs, but I will probably not continue development on it.
+
+Since the creation of this script, another tool has taken it's place with greater functionality.
+
+Checkout Puppet Bolt 
+https://puppet.com/docs/bolt/latest/bolt.html
+
+
 ## About
 Swiss Army Knife type of script to aid in day to day administration.  This script allows for copying a file to a system or list of systems, executing a command against a system or list of systems, and copying a file from a system or list of systems.  All three operations can be done in a single execution of this script to allow for copying a script for auditing to a system, executing it, and retrieval of a results file.
 
